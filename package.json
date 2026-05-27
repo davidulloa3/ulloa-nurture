@@ -4,8 +4,8 @@
   "description": "AI-powered lead nurture system for Ulloa Construction",
   "main": "src/index.js",
   "engines": {
-  "node": ">=20"
-},
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
@@ -13,13 +13,13 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.36.3",
     "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "node-cron": "^3.0.3",
     "resend": "^4.0.1",
     "twilio": "^5.4.5",
     "ws": "^8.18.0"
-    
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

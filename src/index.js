@@ -7,6 +7,8 @@ const leadsRoutes   = require('./routes/leads');
 const { startScheduler } = require('./scheduler');
 
 const app  = express();
+const cors = require('cors');
+app.use(cors({ origin: ['https://ulloa-construction.com', 'http://localhost:3000'] }));
 const PORT = process.env.PORT || 3000;
 
 // ── Middleware ───────────────────────────────────────────────
