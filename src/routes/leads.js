@@ -106,4 +106,72 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
+// PATCH /api/leads/:id/notes — save notes for a lead
+router.patch('/:id/notes', async (req, res) => {
+  try {
+    const { notes } = req.body;
+
+    const { data, error } = await supabase
+      .from('leads')
+      .update({ notes })
+      .eq('id', req.params.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE /api/leads/:id — delete a lead and all related records
+router.delete('/:id', async (req, res) => {
+  try {
+    const { error } = await supabase
+      .from('leads')
+      .delete()
+      .eq('id', req.params.id);
+
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/settings — get AI tone settings
+router.get('/settings/ai', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('ai_settings')
+      .select('*')
+      .eq('id', 1)
+      .maybeSingle();
+
+    if (error) throw error;
+    res.json(data || {});
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PATCH /api/settings — update AI tone settings
+router.patch('/settings/ai', async (req, res) => {
+  try {
+    const { tone, extra_context, sms_signature } = req.body;
+
+    const { data, error } = await supabase
+      .from('ai_settings')
+      .upsert({ id: 1, tone, extra_context, sms_signature, updated_at: new Date().toISOString() })
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
